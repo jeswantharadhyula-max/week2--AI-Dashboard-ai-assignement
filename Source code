@@ -1,0 +1,69 @@
+import pandas as pd
+import plotly.express as px
+
+# Load dataset
+df = pd.read_csv("IPL_Matches_2008_2022.csv")
+
+# Data Cleaning
+df = df.drop_duplicates()
+
+print("Dataset Shape:", df.shape)
+
+# KPI 1
+print("Total Matches:", len(df))
+
+# KPI 2
+print("Total Teams:",
+      len(set(df["Team1"]).union(set(df["Team2"]))))
+
+# KPI 3
+print("Total Venues:", df["Venue"].nunique())
+
+# KPI 4
+print("Total Cities:", df["City"].nunique())
+Visualization 1
+win_counts = df["WinningTeam"].value_counts()
+
+fig = px.bar(
+    x=win_counts.index,
+    y=win_counts.values,
+    title="Matches Won by Team"
+)
+
+fig.show()
+Visualization 2
+fig = px.pie(
+    names=df["TossWinner"].value_counts().index,
+    values=df["TossWinner"].value_counts().values,
+    title="Toss Winner Distribution"
+)
+
+fig.show()
+Visualization 3
+venue_counts = df["Venue"].value_counts().head(10)
+
+fig = px.bar(
+    x=venue_counts.index,
+    y=venue_counts.values,
+    title="Top 10 Venues"
+)
+
+fig.show()
+Visualization 4
+fig = px.histogram(
+    df,
+    x="Margin",
+    title="Winning Margin Distribution"
+)
+
+fig.show()
+Visualization 5
+city_counts = df["City"].value_counts().head(10)
+
+fig = px.bar(
+    x=city_counts.index,
+    y=city_counts.values,
+    title="Matches by City"
+)
+
+fig.show()
